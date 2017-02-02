@@ -1,4 +1,5 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
 export interface LayoutTheme {
   /**
@@ -7,7 +8,7 @@ export interface LayoutTheme {
   layout?: string;
 }
 
-interface LayoutProps extends __ReactToolbox.Props {
+export interface LayoutProps extends ReactToolbox.Props {
   /**
    * Children to pass through the component.
    */
@@ -18,7 +19,7 @@ interface LayoutProps extends __ReactToolbox.Props {
   theme?: LayoutTheme;
 }
 
-export class Layout extends __React.Component<LayoutProps, {}> { }
+export class Layout extends React.Component<LayoutProps, {}> { }
 
 export interface NavDrawerTheme {
   /**
@@ -32,11 +33,15 @@ export interface NavDrawerTheme {
   /**
    * Added to the root class for large drawer.
    */
-  lgPermangent?: string;
+  lgPermanent?: string;
+  /**
+   * Added to the root class for large drawer (tablet landscape).
+   */
+  lgTabletPermanent?: string;
   /**
    * Added to the root class for medium drawer.
    */
-  mdPermangent?: string;
+  mdPermanent?: string;
   /**
    * Root class for the drawer.
    */
@@ -58,6 +63,10 @@ export interface NavDrawerTheme {
    */
   smPermanent?: string;
   /**
+   * Added to the root class for small drawer (tablet portrait).
+   */
+  smTabletPermanent?: string;
+  /**
    * Added to the root class if width is wide.
    */
   wide?: string;
@@ -68,14 +77,14 @@ export interface NavDrawerTheme {
   /**
    * Added to the root class for super big drawer.
    */
-  xxlPermangent?: string;
+  xxlPermanent?: string;
   /**
    * Added to the root class for largest possible drawer.
    */
-  xxxlPermangent?: string;
+  xxxlPermanent?: string;
 }
 
-interface NavDrawerProps extends __ReactToolbox.Props {
+export interface NavDrawerProps extends ReactToolbox.Props {
   /**
    * If true, the drawer will be shown as an overlay.
    * @default false
@@ -84,15 +93,15 @@ interface NavDrawerProps extends __ReactToolbox.Props {
   /**
    * Children to pass through the component.
    */
-  children?: __React.ReactNode;
+  children?: React.ReactNode;
   /**
    * Callback function to be invoked when the overlay is clicked.
    */
-  onOverlayClick?: __React.MouseEventHandler;
+  onOverlayClick?: Function;
   /**
    * The breakpoint at which the drawer is automatically pinned.
    */
-  permanentAt?: "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
+  permanentAt?: "sm" | "smTablet" | "md" | "lg" | "lgTablet" | "xl" | "xxl" | "xxxl";
   /**
    * If true, the drawer will be pinned open. pinned takes precedence over active.
    * @default false
@@ -114,7 +123,7 @@ interface NavDrawerProps extends __ReactToolbox.Props {
   width?: "normal" | "wide";
 }
 
-export class NavDrawer extends __React.Component<NavDrawerProps, {}> { }
+export class NavDrawer extends React.Component<NavDrawerProps, {}> { }
 
 export interface PanelTheme {
   /**
@@ -127,11 +136,15 @@ export interface PanelTheme {
   scrollY?: string;
 }
 
-interface PanelProps extends __ReactToolbox.Props {
+export interface PanelProps extends ReactToolbox.Props {
   /**
    * Children to pass through the component.
    */
-  children?: __React.ReactNode;
+  children?: React.ReactNode;
+  /**
+   * Callback function to be invoked when the component scrolls.
+   */
+  onScroll?: Function;
   /**
    * If true, the panel will vertically scroll all content.
    * @default false
@@ -143,7 +156,7 @@ interface PanelProps extends __ReactToolbox.Props {
   theme?: PanelTheme;
 }
 
-export class Panel extends __React.Component<PanelProps, {}> { }
+export class Panel extends React.Component<PanelProps, {}> { }
 
 export interface SidebarTheme {
   /**
@@ -164,11 +177,11 @@ export interface SidebarTheme {
   sidebarContent?: string;
 }
 
-interface SidebarProps extends __ReactToolbox.Props {
+export interface SidebarProps extends ReactToolbox.Props {
   /**
    * Children to pass through the component.
    */
-  children?: __React.ReactNode;
+  children?: React.ReactNode;
   /**
    * If true, the sidebar will be pinned open.
    * @default false
@@ -190,4 +203,4 @@ interface SidebarProps extends __ReactToolbox.Props {
   width?: number; // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 25 | 33 | 50 | 66 | 75 | 100;
 }
 
-export class Sidebar extends __React.Component<SidebarProps, {}> { }
+export class Sidebar extends React.Component<SidebarProps, {}> { }

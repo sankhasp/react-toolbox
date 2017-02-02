@@ -7,9 +7,11 @@ const factory = (Dialog) => {
   class TimePickerDialog extends Component {
     static propTypes = {
       active: PropTypes.bool,
+      cancelLabel: PropTypes.string,
       className: PropTypes.string,
       format: PropTypes.oneOf(['24hr', 'ampm']),
       name: PropTypes.string,
+      okLabel: PropTypes.string,
       onDismiss: PropTypes.func,
       onEscKeyDown: PropTypes.func,
       onOverlayClick: PropTypes.func,
@@ -34,14 +36,22 @@ const factory = (Dialog) => {
 
     static defaultProps = {
       active: false,
+      cancelLabel: 'Cancel',
       format: '24hr',
+      okLabel: 'Ok',
       value: new Date()
     };
 
     state = {
       display: 'hours',
-      displayTime: this.props.value
+      displayTime: new Date(this.props.value.getTime())
     };
+
+    componentWillReceiveProps (nextProps) {
+      if (nextProps.value.getTime() !== this.state.displayTime.getTime()) {
+        this.setState({ displayTime: new Date(nextProps.value.getTime()) });
+      }
+    }
 
     componentDidUpdate (prevProps) {
       if (!prevProps.active && this.props.active) {
@@ -65,13 +75,13 @@ const factory = (Dialog) => {
       if (this.state.display === 'hours') this.setState({display: 'minutes'});
     };
 
-    switchDisplay = (display) => {
-      this.setState({display});
+    switchDisplay = (event) => {
+      this.setState({display: event.target.id});
     };
 
     actions = [
-      { label: 'Cancel', className: this.props.theme.button, onClick: this.props.onDismiss },
-      { label: 'Ok', className: this.props.theme.button, name: this.props.name, onClick: this.handleSelect }
+      { label: this.props.cancelLabel, className: this.props.theme.button, onClick: this.props.onDismiss },
+      { label: this.props.okLabel, className: this.props.theme.button, name: this.props.name, onClick: this.handleSelect }
     ];
 
     formatHours () {
@@ -108,11 +118,11 @@ const factory = (Dialog) => {
           onOverlayClick={this.props.onOverlayClick}
         >
           <header className={theme.header}>
-            <span className={theme.hours} onClick={this.switchDisplay.bind(this, 'hours')}>
+            <span id='hours' className={theme.hours} onClick={this.switchDisplay}>
               {('0' + this.formatHours()).slice(-2)}
             </span>
             <span className={theme.separator}>:</span>
-            <span className={theme.minutes} onClick={this.switchDisplay.bind(this, 'minutes')}>
+            <span id='minutes' className={theme.minutes} onClick={this.switchDisplay}>
               {('0' + this.state.displayTime.getMinutes()).slice(-2)}
             </span>
             {this.renderAMPMLabels()}

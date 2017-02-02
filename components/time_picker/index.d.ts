@@ -1,4 +1,5 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
 export interface TimePickerTheme {
   /**
@@ -95,18 +96,32 @@ export interface TimePickerTheme {
   small?: string;
 }
 
-interface TimePickerProps {
+export interface TimePickerProps {
+  /**
+   * Whether time picker is active.
+   * @default false
+   */
+  active?: boolean;
+  /**
+   * Label used for cancel button.
+   * @default "Cancel"
+   */
+  cancelLabel?: string;
   /**
    * Provide error text which will be displayed under the field.
    */
   error?: string;
+  /**
+   * A key to identify an Icon from Material Design Icons or a custom Icon Element.
+   */
+  icon?: React.ReactNode | string;
   /**
    * This class will be applied to Input component of TimePicker.
    */
   inputClassName?: string;
   /**
    * Format to display the clock. It can be 24hr or ampm.
-   * @default false
+   * @default "24hr"
    */
   format?: "24hr" | "ampm";
   /**
@@ -114,9 +129,38 @@ interface TimePickerProps {
    */
   label?: string;
   /**
+   * Label used for 'OK' button on Dialog.
+   * @default "Ok"
+   */
+  okLabel?: string;
+  /**
    * Callback called when the picker value is changed.
    */
   onChange?: Function;
+  /**
+   * Callback fired on Input click.
+   */
+  onClick?: Function;
+  /**
+   * Callback fired after dismissing the Dialog.
+   */
+  onDismiss?: Function;
+  /**
+   * Callback called when the ESC key is pressed with the overlay active.
+   */
+  onEscKeyDown?: Function;
+  /**
+   * Callback invoked on Input key press.
+   */
+  onKeyPress?: Function;
+  /**
+   * Callback to be invoked when the dialog overlay is clicked.
+   */
+  onOverlayClick?: Function;
+  /**
+   * The input element will be readonly and look like disabled.
+   */
+  readonly?: boolean;
   /**
    * Classnames object defining the component style.
    */
@@ -125,8 +169,12 @@ interface TimePickerProps {
    * Datetime object with currrently selected time.
    */
   value?: Date;
+  /**
+   * Additional attributes passed to inner Input component.
+   */
+  [key: string]: any;
 }
 
-export class TimePicker extends __React.Component<TimePickerProps, {}> { }
+export class TimePicker extends React.Component<TimePickerProps, {}> { }
 
 export default TimePicker;

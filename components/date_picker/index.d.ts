@@ -1,4 +1,5 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
 export interface DatePickerTheme {
   /**
@@ -83,12 +84,30 @@ export interface DatePickerTheme {
   yearsDisplay?: string;
 }
 
-interface DatePickerProps extends __ReactToolbox.Props {
+export interface DatePickerProps extends ReactToolbox.Props {
+  /**
+   * Allows to control if the picker should be shown from outside. Beware you should update the prop when the Dialog is closed.
+   * @default false
+   */
+  active?: boolean;
   /**
    * Automatically selects a date upon clicking on a day
    * @default false
    */
   autoOk?: boolean;
+  /**
+   * Label used for cancel button on Dialog.
+   * @default "Cancel"
+   */
+  cancelLabel?: string;
+  /**
+   * An array of date objects which will be disabled in the calendar. All other dates will be enabled.
+   */
+  disabledDates?: Date[];
+  /**
+   * An array of date objects which will be enabled in the calendar. All other dates will be disabled.
+   */
+  enabledDates?: Date[];
   /**
    * Give an error node to display under the field.
    */
@@ -96,7 +115,7 @@ interface DatePickerProps extends __ReactToolbox.Props {
   /**
    * A key to identify an Icon from Material Design Icons or a custom Icon Element.
    */
-  icon?: __React.ReactNode | string;
+  icon?: React.ReactNode | string;
   /**
    * This class will be applied to Input component of DatePicker.
    */
@@ -110,6 +129,11 @@ interface DatePickerProps extends __ReactToolbox.Props {
    */
   label?: string;
   /**
+   * Sets locale for the Dialog.
+   * @default "en"
+   */
+  locale?: "de" | "no" | "en" | "es" | "af" | "ar" | "be" | "bg" | "bn" | "bo" | "br" | "bs" | "ca" | "gl" | "eu" | "pt" | "it" | "fr" | "ru" | "ua" | DatePickerLocale;
+  /**
    * Date object with the maximum selectable date.
    */
   maxDate?: Date;
@@ -122,17 +146,43 @@ interface DatePickerProps extends __ReactToolbox.Props {
    */
   name?: string;
   /**
+   * Label used for 'OK' button on Dialog.
+   * @default "Ok"
+   */
+  okLabel?: string;
+  /**
    * Callback called when the picker value is changed.
    */
-  onChange?: __React.MouseEventHandler;
+  onChange?: Function;
+  /**
+   * Callback fired on Input click.
+   */
+  onClick?: Function;
+  /**
+   * Callback fired after dismissing the Dialog.
+   */
+  onDismiss?: Function;
   /**
    * Callback called when the ESC key is pressed with the overlay active.
    */
-  onEscKeyDown?: __React.KeyboardEventHandler;
+  onEscKeyDown?: Function;
+  /**
+   * Callback invoked on Input key press.
+   */
+  onKeyPress?: Function;
   /**
    * Callback to be invoked when the dialog overlay is clicked.
    */
-  onOverlayClick?: __React.MouseEventHandler;
+  onOverlayClick?: Function;
+  /**
+   * The input element will be readonly and look like disabled.
+   */
+  readonly?: boolean;
+  /**
+   * Set week's first day to Sunday. Default week's first day is Monday.
+   * @default false
+   */
+  sundayFirstDayOfWeek?: boolean;
   /**
    * Classnames object defining the component style.
    */
@@ -143,6 +193,29 @@ interface DatePickerProps extends __ReactToolbox.Props {
   value?: Date | string;
 }
 
-export class DatePicker extends __React.Component<DatePickerProps, {}> { }
+export interface DatePickerLocale {
+  /**
+   * Month names.
+   */
+  months?: string[];
+  /**
+   * Month short names.
+   */
+  monthsShort?: string[];
+  /**
+   * Day names starting from Sunday.
+   */
+  weekdays?: string[];
+  /**
+   * Day short names starting from Sunday.
+   */
+  weekdaysShort?: string[];
+  /**
+   * Day letters starting from Sunday.
+   */
+  weekdaysLetter?: string[];
+}
+
+export class DatePicker extends React.Component<DatePickerProps, {}> { }
 
 export default DatePicker;

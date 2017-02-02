@@ -1,14 +1,35 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
-export interface TabsTheme {
+export interface TabsTheme extends TabTheme, TabContentTheme {
   /**
-   * Added to the active tab content and header.
+   * Class used for arrows.
    */
-  active?: string;
+  arrow?: string;
+  /**
+   * Class used for arrow container.
+   */
+  arrowContainer?: string;
+  /**
+   * Class used when 'disableAnimatedBottomBorder' is true.
+   */
+  disableAnimation?: string;
+  /**
+   * Used to make the 'fixed tabs'.
+   */
+  fixed?: string;
+  /**
+   * Used to invert the colors.
+   */
+  inverse?: string;
   /**
    * Used for the navigation element.
    */
   navigation?: string;
+  /**
+   * Used for navigation container.
+   */
+  navigationContainer?: string;
   /**
    * Used for the moving underline element.
    */
@@ -17,17 +38,13 @@ export interface TabsTheme {
    * Used as a root classname for the component.
    */
   tabs?: string;
-  /**
-   * Used for the tab content element.
-   */
-  tab?: string;
 }
 
-interface TabsProps extends __ReactToolbox.Props {
+export interface TabsProps extends ReactToolbox.Props {
   /**
    * Children to pass through the component.
    */
-  children?: __React.ReactNode;
+  children?: React.ReactNode;
   /**
    * Disable the animation below the active tab.
    * @default false
@@ -39,6 +56,21 @@ interface TabsProps extends __ReactToolbox.Props {
    */
   index?: number;
   /**
+   * `unmounted` mode will not mount the tab content of inactive tabs.
+   * `display` mode will mount but hide inactive tabs.
+   * Consider holding state outside of the Tabs component before using `display` mode
+   * @default unmounted
+   */
+  hideMode?: 'display' | 'unmounted';
+  /**
+   * If True, the tabs will have an inverse style.
+   */
+  inverse?: boolean;
+  /**
+   * If True, the tabs will be fixed, covering the whole width.
+   */
+  fixed?: boolean;
+  /**
    * Callback function that is fired when the tab changes.
    */
   onChange?: Function;
@@ -48,7 +80,7 @@ interface TabsProps extends __ReactToolbox.Props {
   theme?: TabsTheme;
 }
 
-export class Tabs extends __React.Component<TabsProps, {}> { }
+export class Tabs extends React.Component<TabsProps, {}> { }
 
 export interface TabTheme {
   /**
@@ -67,9 +99,17 @@ export interface TabTheme {
    * Added to the navigation tab element in case it's active.
    */
   label?: string;
+  /**
+   * Class added when icon is set.
+   */
+  withIcon?: string;
+  /**
+   * Class added when label is set.
+   */
+  withText?: string;
 }
 
-interface TabProps extends __ReactToolbox.Props {
+export interface TabProps extends ReactToolbox.Props {
   /**
    * If true, the current component is visible.
    */
@@ -89,6 +129,10 @@ interface TabProps extends __ReactToolbox.Props {
    */
   hidden?: boolean;
   /**
+   * Icon to be used in inner FontIcon.
+   */
+  icon?: React.ReactNode;
+  /**
    * Label text for navigation header. Required.
    */
   label: string;
@@ -100,6 +144,42 @@ interface TabProps extends __ReactToolbox.Props {
    * Classnames object defining the component style.
    */
   theme?: TabTheme;
+  /**
+   * Additional properties passed to Tab root container.
+   */
+  [key: string]: any;
 }
 
-export class Tab extends __React.Component<TabProps, {}> { }
+export class Tab extends React.Component<TabProps, {}> { }
+
+export interface TabContentTheme {
+  /**
+   * Added when tab is active.
+   */
+  active?: string;
+  /**
+   * Used for the tab content element.
+   */
+  tab?: string;
+}
+
+export interface TabContentProps extends ReactToolbox.Props {
+  /**
+   * Whether tab is active.
+   */
+  active?: boolean;
+  /**
+   * Tab content.
+   */
+  children?: React.ReactNode;
+  /**
+   * Current tab index.
+   */
+  tabIndex?: number;
+  /**
+   * Classnames object defining the component style.
+   */
+  theme?: TabContentTheme;
+}
+
+export class TabContent extends React.Component<TabContentProps, {}> { }

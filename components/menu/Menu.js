@@ -105,21 +105,32 @@ const factory = (MenuItem) => {
 
     componentWillUpdate (nextProps, nextState) {
       if (!this.state.active && nextState.active) {
-        events.addEventsToDocument({click: this.handleDocumentClick});
+        events.addEventsToDocument({
+          click: this.handleDocumentClick,
+          touchstart: this.handleDocumentClick
+        });
       }
     }
 
     componentDidUpdate (prevProps, prevState) {
       if (prevState.active && !this.state.active) {
         if (this.props.onHide) this.props.onHide();
-        events.removeEventsFromDocument({click: this.handleDocumentClick});
+        events.removeEventsFromDocument({
+          click: this.handleDocumentClick,
+          touchstart: this.handleDocumentClick
+        });
       } else if (!prevState.active && this.state.active && this.props.onShow) {
         this.props.onShow();
       }
     }
 
     componentWillUnmount () {
-      if (this.state.active) events.removeEventsFromDocument({click: this.handleDocumentClick});
+      if (this.state.active) {
+        events.removeEventsFromDocument({
+          click: this.handleDocumentClick,
+          touchstart: this.handleDocumentClick
+        });
+      }
       clearTimeout(this.positionTimeoutHandle);
       clearTimeout(this.activateTimeoutHandle);
     }
@@ -206,7 +217,7 @@ const factory = (MenuItem) => {
 
       return (
         <div data-react-toolbox='menu' className={className} style={this.getRootStyle()}>
-          {this.props.outline ? <div className={theme.outline} style={outlineStyle}></div> : null}
+          {this.props.outline ? <div className={theme.outline} style={outlineStyle} /> : null}
           <ul ref='menu' className={theme.menuInner} style={this.getMenuStyle()}>
             {this.renderItems()}
           </ul>

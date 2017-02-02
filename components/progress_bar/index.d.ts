@@ -1,4 +1,5 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
 export interface ProgressBarTheme {
   /**
@@ -35,12 +36,17 @@ export interface ProgressBarTheme {
   value?: string;
 }
 
-interface ProgressBarProps extends __ReactToolbox.Props {
+export interface ProgressBarProps extends ReactToolbox.Props {
   /**
    * Value of a secondary progress bar useful for buffering.
    * @default 0
    */
   buffer?: number;
+  /**
+   * If true, component will be disabled.
+   * @default false
+   */
+  disabled?: boolean;
   /**
    * Maximum value permitted.
    * @default 100
@@ -77,6 +83,6 @@ interface ProgressBarProps extends __ReactToolbox.Props {
   value?: number;
 }
 
-export class ProgressBar extends __React.Component<ProgressBarProps, {}> { }
+export class ProgressBar extends React.Component<ProgressBarProps, {}> { }
 
 export default ProgressBar;

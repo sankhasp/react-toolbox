@@ -1,6 +1,6 @@
 # Dialog
 
-[Dialogs](https://www.google.com/design/spec/components/dialogs.html) contain text and UI controls focused on a specific task. They inform users about critical information, require users to make decisions, or involve multiple tasks. You would need an additional component to take actions and display or hide the dialog.
+[Dialogs](https://material.google.com/components/dialogs.html) contain text and UI controls focused on a specific task. They inform users about critical information, require users to make decisions, or involve multiple tasks. You would need an additional component to take actions and display or hide the dialog.
 
 <!-- example -->
 ```jsx
@@ -54,7 +54,10 @@ If you want to provide a theme via context, the component key is `RTDialog`.
 | `onOverlayMouseMove`    | `Function`      |                 | Callback called when the mouse is moving over the overlay. |
 | `onOverlayMouseUp`      | `Function`      |                 | Callback called when the mouse button is released over the overlay. |
 | `title`                 | `String`        |                 | The text string to use as standar title of the dialog.|
-| `type`                  | `String`        | `normal`        | Used to determine the size of the dialog. It can be `small`, `normal` or `large`. |
+| `type`                  | `String`        | `normal`        | Used to determine the size of the dialog. It can be `small`, `normal`, `large` or `fullscreen`. |
+
+Notice that the `fullscreen` option only applies on mobile devices with small screens (i.e. cellphones), and on other devices it behaves as a `large` dialog.
+
 
 ## Theme
 

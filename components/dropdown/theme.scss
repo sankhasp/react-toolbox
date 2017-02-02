@@ -56,6 +56,7 @@
     transition: transform $animation-duration $animation-curve-default;
   }
 }
+
 .field {
   position: relative;
   padding: $input-padding 0;
@@ -67,6 +68,9 @@
     }
     > .templateValue {
       border-bottom: 1px solid $input-text-error-color;
+    }
+    > .label > .required {
+      color: $input-text-required-color;
     }
   }
   &.disabled {
@@ -95,6 +99,9 @@
   font-size: $input-label-font-size;
   line-height: $input-field-font-size;
   color: $input-text-label-color;
+  .required {
+    color: $input-text-required-color;
+  }
 }
 
 .error {
@@ -121,11 +128,15 @@
     padding: $unit;
     overflow: hidden;
     cursor: pointer;
-    &:hover {
+    &:hover:not(.disabled) {
       background-color: $dropdown-value-hover-background;
     }
     &.selected {
       color: $dropdown-color-primary;
+    }
+    &.disabled {
+      color: $dropdown-color-disabled;
+      cursor: not-allowed;
     }
   }
 }

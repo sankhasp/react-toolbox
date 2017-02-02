@@ -1,29 +1,14 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
-export interface TableTheme {
-  /**
-   * It will be added to a row in case it is editable.
-   */
-  editable?: string;
-  /**
-   * Used for the row element.
-   */
-  row?: string;
-  /**
-   * It will be added to a row in case it is selectable.
-   */
-  selectable?: string;
-  /**
-   * Added to a row in case it is selected.
-   */
-  selected?: string;
+export interface TableTheme extends TableRowTheme {
   /**
    * Classname used for the root element.
    */
   table?: string;
 }
 
-interface TableProps extends __ReactToolbox.Props {
+export interface TableProps extends ReactToolbox.Props {
   /**
    * If true, component will show a heading using model field names.
    * @default true
@@ -38,9 +23,13 @@ interface TableProps extends __ReactToolbox.Props {
    */
   onChange?: Function;
   /**
+   * Callback fired when row was clicked.
+   */
+  onRowClick?: Function;
+  /**
    * Callback function invoked when the row selection changes.
    */
-  onSelect?: __React.FormEventHandler;
+  onSelect?: Function;
   /**
    * If true, each row will display a checkbox to allow the user to select that one row.
    * @default true
@@ -65,6 +54,98 @@ interface TableProps extends __ReactToolbox.Props {
   theme?: TableTheme;
 }
 
-export class Table extends __React.Component<TableProps, {}> { }
+export class Table extends React.Component<TableProps, {}> { }
+
+export interface TableHeadTheme {
+  /**
+   * It will be added to a row in case it is selectable.
+   */
+  selectable?: string;
+}
+
+export interface TableHeadProps extends ReactToolbox.Props {
+  /**
+   * Object describing the data model that represents each object in the source.
+   */
+  model?: any;
+  /**
+   * If true, the header and each row will display a checkbox to allow the user to select multiple rows.
+   */
+  multiSelectable?: boolean;
+  /**
+   * Callback function invoked when the row selection changes.
+   */
+  onSelect?: Function;
+  /**
+   * If true, each row will display a checkbox to allow the user to select that one row.
+   * @default true
+   */
+  selectable?: boolean;
+  /**
+   * Whether header should look selected.
+   * @default false
+   */
+  selected?: boolean;
+  /**
+   * Classnames object defining the component style.
+   */
+  theme?: TableHeadTheme;
+}
+
+export class TableHead extends React.Component<TableHeadProps, {}> { }
+
+export interface TableRowTheme extends TableHeadTheme {
+  /**
+   * It will be added to a row in case it is editable.
+   */
+  editable?: string;
+  /**
+   * Used for the row element.
+   */
+  row?: string;
+  /**
+   * Added to a row in case it is selected.
+   */
+  selected?: string;
+}
+
+export interface TableRowProps {
+  /**
+   * Single row data.
+   */
+  data?: any;
+  /**
+   * Row index.
+   */
+  index?: number;
+  /**
+   * Object describing the data model that represents each object in the source.
+   */
+  model?: any;
+  /**
+   * Callback function that is fired when an item in a row changes. If set, rows are editable.
+   */
+  onChange?: Function;
+  /**
+   * Callback fired when row was clicked.
+   */
+  onRowClick?: Function;
+  /**
+   * Callback function invoked when the row selection changes.
+   */
+  onSelect?: Function;
+  /**
+   * If true, each row will display a checkbox to allow the user to select that one row.
+   * @default true
+   */
+  selectable?: boolean;
+  /**
+   * Whether table row should look selected.
+   * @default false
+   */
+  selected?: boolean;
+}
+
+export class TableRow extends React.Component<TableRowProps, {}> { }
 
 export default Table;

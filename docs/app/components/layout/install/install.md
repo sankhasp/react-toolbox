@@ -1,6 +1,6 @@
 # Installation, usage and customization
 
-React Toolbox is a set of [React](http://facebook.github.io/react/) components that implement [Google's Material Design specification](https://www.google.com/design/spec/material-design/introduction.html). It's powered by [CSS Modules](https://github.com/css-modules/css-modules) and harmoniously integrates with your [webpack](http://webpack.github.io/) workflow, although you can use any other module bundler. You can take a tour through our documentation website and try the components live!
+React Toolbox is a set of [React](http://facebook.github.io/react/) components that implement [Google's Material Design specification](https://material.google.com/). It's powered by [CSS Modules](https://github.com/css-modules/css-modules) and harmoniously integrates with your [webpack](http://webpack.github.io/) workflow, although you can use any other module bundler. You can take a tour through our documentation website and try the components live!
 
 ## Installation
 
@@ -177,9 +177,15 @@ A couple of things here. First you need to use raw components to get this styles
 
 ## Roboto Font and Material Design Icons
 
-React Toolbox assumes that you are importing [Roboto Font](https://www.google.com/fonts/specimen/Roboto) and [Material Design Icons](https://www.google.com/design/icons/).
+React Toolbox assumes that you are importing [Roboto Font](https://fonts.google.com/specimen/Roboto) and [Material Design Icons](https://material.io/icons/).
 
 In order to import the fonts for you, we'd need to include them in the CSS which is considered a bad practice. If you are not including them in your app, go to the linked sites and follow the instructions.
+
+## References to Components
+
+As mentioned in the theming section, you'd usually import a component with a theme already injected. To do this we use a [Higher Order Component](http://github.com/javivelasco/react-css-themr). If you add a `ref` property to a React Toolbox component, what you will get is the **HOC** instead of the **Wrapped** component.
+
+For components with imperative methods such as the `Input`, you can also get its real instance instead of the HOC. To do this, the HOC includes a `getWrappedInstance` method that returns the wrapped component instance. This way you can call methods directly on the component's instance.
 
 ## Server Side Rendering
 

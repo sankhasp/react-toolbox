@@ -1,4 +1,5 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
 export interface AvatarTheme {
   /**
@@ -15,23 +16,24 @@ export interface AvatarTheme {
   letter?: string;
 }
 
-interface AvatarProps extends __ReactToolbox.Props {
+export interface AvatarProps extends ReactToolbox.Props {
   /**
    * Children to pass through the component.
    */
-  children?: __React.ReactNode;
+  children?: React.ReactNode;
   /**
    * Set to true if your image is not squared so it will be used as a cover for the element.
+   * @default false
    */
   cover?: boolean;
   /**
    * A key to identify an Icon from Material Design Icons or a custom Icon Element.
    */
-  icon?: __React.ReactNode | string;
+  icon?: React.ReactNode | string;
   /**
    * An image source or an image element.
    */
-  image?: __React.ReactNode | string;
+  image?: React.ReactNode | string;
   /**
    * Classnames object defining the component style.
    */
@@ -40,8 +42,12 @@ interface AvatarProps extends __ReactToolbox.Props {
    * A title for the image. If no image is provided, the first letter will be displayed as the avatar.
    */
   title?: string;
+  /**
+   * Additional properties for component root element.
+   */
+  [key: string]: any;
 }
 
-export class Avatar extends __React.Component<AvatarProps, {}> { }
+export class Avatar extends React.Component<AvatarProps, {}> { }
 
 export default Avatar;

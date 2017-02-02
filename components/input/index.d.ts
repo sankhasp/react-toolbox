@@ -1,4 +1,5 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
 export interface InputTheme {
   /**
@@ -51,11 +52,11 @@ export interface InputTheme {
   withIcon?: string;
 }
 
-interface InputProps extends __ReactToolbox.Props {
+export interface InputProps extends ReactToolbox.Props {
   /**
    * Children to pass through the component.
    */
-  children?: __React.ReactNode;
+  children?: React.ReactNode;
   /**
    * If true, component will be disabled.
    * @default false
@@ -64,7 +65,7 @@ interface InputProps extends __ReactToolbox.Props {
   /**
    * Give an error node to display under the field.
    */
-  error?: string;
+  error?: string | React.ReactNode;
   /**
    * Indicates if the label is floating in the input field or not.
    * @default true
@@ -73,15 +74,15 @@ interface InputProps extends __ReactToolbox.Props {
   /**
    * The text string to use for hint text element.
    */
-  hint?: string;
+  hint?: string | React.ReactNode;
   /**
    * Name of an icon to use as a label for the input.
    */
-  icon?: __React.ReactNode | string;
+  icon?: React.ReactNode | string;
   /**
    * The text string to use for the floating label element.
    */
-  label?: string;
+  label?: string | React.ReactNode;
   /**
    * Specifies the maximum number of characters allowed in the component
    */
@@ -90,7 +91,7 @@ interface InputProps extends __ReactToolbox.Props {
    * If true, a textarea element will be rendered. The textarea also grows and shrinks according to the number of lines.
    * @default false
    */
-  multiLine?: boolean;
+  multiline?: boolean;
   /**
    * Name for the input field.
    */
@@ -98,30 +99,35 @@ interface InputProps extends __ReactToolbox.Props {
   /**
    * Callback function that is fired when component is blurred.
    */
-  onBlur?: __React.FocusEventHandler;
+  onBlur?: Function;
   /**
    * Callback function that is fired when the component's value changes
    */
-  onChange?: __React.FormEventHandler;
+  onChange?: Function;
   /**
    * Callback function that is fired when component is focused.
    */
-  onFocus?: __React.FocusEventHandler;
+  onFocus?: Function;
   /**
    * Callback function that is fired when a key is pressed.
    */
-  onKeyPress?: __React.MouseEventHandler;
+  onKeyPress?: Function;
   /**
    * If true, the html input has a required attribute.
    * @default false
    */
   required?: boolean;
   /**
+   * The number of rows the multiline input field has.
+   */
+  rows?:number;
+  /**
    * Classnames object defining the component style.
    */
   theme?: InputTheme;
   /**
-   * Type of the input element. It can be a valid HTML5 input type
+   * Type of the input element. It can be a valid HTML5 input type.
+   * @default "text"
    */
   type?: string;
   /**
@@ -130,6 +136,6 @@ interface InputProps extends __ReactToolbox.Props {
   value?: any;
 }
 
-export class Input extends __React.Component<InputProps, {}> { }
+export class Input extends React.Component<InputProps, {}> { }
 
 export default Input;

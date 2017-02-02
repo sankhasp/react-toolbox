@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import { FontIcon } from '../font_icon';
 import { themr } from 'react-css-themr';
 import { TABS } from '../identifiers.js';
 
@@ -10,14 +11,17 @@ class Tab extends Component {
     className: PropTypes.string,
     disabled: PropTypes.bool,
     hidden: PropTypes.bool,
-    label: PropTypes.any.isRequired,
+    icon: PropTypes.node,
+    label: PropTypes.node,
     onActive: PropTypes.func,
     onClick: PropTypes.func,
     theme: PropTypes.shape({
       active: PropTypes.string,
       disabled: PropTypes.string,
       hidden: PropTypes.string,
-      label: PropTypes.string
+      label: PropTypes.string,
+      withIcon: PropTypes.string,
+      withText: PropTypes.string
     })
   };
 
@@ -41,17 +45,23 @@ class Tab extends Component {
   };
 
   render () {
-    const { active, activeClassName, hidden, disabled, className, theme } = this.props;
+    const {
+      onActive, // eslint-disable-line
+      active, activeClassName, className, disabled, hidden, label, icon, theme, ...other
+    } = this.props;
     const _className = classnames(theme.label, {
       [theme.active]: active,
       [theme.hidden]: hidden,
+      [theme.withText]: label,
+      [theme.withIcon]: icon,
       [theme.disabled]: disabled,
       [activeClassName]: active
     }, className);
 
     return (
-      <label data-react-toolbox='tab' className={_className} onClick={this.handleClick}>
-        {this.props.label}
+      <label {...other} data-react-toolbox='tab' className={_className} onClick={this.handleClick}>
+        {icon && <FontIcon className={theme.icon} value={icon}/>}
+        {label}
       </label>
     );
   }

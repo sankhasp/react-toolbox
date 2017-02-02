@@ -46,10 +46,10 @@ export default {
     return true;
   },
 
-  removeEventListenerOnTransitionEnded (element) {
+  removeEventListenerOnTransitionEnded (element, fn) {
     const eventName = transitionEventNamesFor(element);
     if (!eventName) return false;
-    element.removeEventListener(eventName);
+    element.removeEventListener(eventName, fn);
     return true;
   }
 };
@@ -63,7 +63,7 @@ const TRANSITIONS = {
 
 function transitionEventNamesFor (element) {
   for (const transition in TRANSITIONS) {
-    if (element.style[transition] !== undefined) {
+    if (element && element.style[transition] !== undefined) {
       return TRANSITIONS[transition];
     }
   }

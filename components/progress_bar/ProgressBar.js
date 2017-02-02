@@ -8,6 +8,7 @@ class ProgressBar extends Component {
   static propTypes = {
     buffer: PropTypes.number,
     className: PropTypes.string,
+    disabled: PropTypes.bool,
     max: PropTypes.number,
     min: PropTypes.number,
     mode: PropTypes.oneOf(['determinate', 'indeterminate']),
@@ -62,7 +63,7 @@ class ProgressBar extends Component {
 
   renderCircular () {
     return (
-      <svg className={this.props.theme.circle}>
+      <svg className={this.props.theme.circle} viewBox="0 0 60 60">
         <circle className={this.props.theme.path} style={this.circularStyle()} cx='30' cy='30' r='25' />
       </svg>
     );
@@ -72,14 +73,14 @@ class ProgressBar extends Component {
     const {buffer, value} = this.linearStyle();
     return (
       <div>
-        <span ref='buffer' data-ref='buffer' className={this.props.theme.buffer} style={buffer}></span>
-        <span ref='value' data-ref='value' className={this.props.theme.value} style={value}></span>
+        <span ref='buffer' data-ref='buffer' className={this.props.theme.buffer} style={buffer}/>
+        <span ref='value' data-ref='value' className={this.props.theme.value} style={value}/>
       </div>
     );
   }
 
   render () {
-    const { className, max, min, mode, multicolor, type, theme, value } = this.props;
+    const { className, disabled, max, min, mode, multicolor, type, theme, value } = this.props;
     const _className = classnames(theme[type], {
       [theme[mode]]: mode,
       [theme.multicolor]: multicolor
@@ -87,6 +88,7 @@ class ProgressBar extends Component {
 
     return (
       <div
+        disabled={disabled}
         data-react-toolbox='progress-bar'
         aria-valuenow={value}
         aria-valuemin={min}

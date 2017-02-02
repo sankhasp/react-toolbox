@@ -7,14 +7,23 @@ const factory = (Dialog, Calendar) => {
     static propTypes = {
       active: PropTypes.bool,
       autoOk: PropTypes.bool,
+      cancelLabel: PropTypes.string,
       className: PropTypes.string,
+      disabledDates: PropTypes.array,
+      enabledDates: PropTypes.array,
+      locale: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.object
+      ]),
       maxDate: PropTypes.object,
       minDate: PropTypes.object,
       name: PropTypes.string,
+      okLabel: PropTypes.string,
       onDismiss: PropTypes.func,
       onEscKeyDown: PropTypes.func,
       onOverlayClick: PropTypes.func,
       onSelect: PropTypes.func,
+      sundayFirstDayOfWeek: React.PropTypes.bool,
       theme: PropTypes.shape({
         button: PropTypes.string,
         calendarWrapper: PropTypes.string,
@@ -30,7 +39,9 @@ const factory = (Dialog, Calendar) => {
 
     static defaultProps = {
       active: false,
+      cancelLabel: 'Cancel',
       className: '',
+      okLabel: 'Ok',
       value: new Date()
     };
 
@@ -41,17 +52,20 @@ const factory = (Dialog, Calendar) => {
 
     componentWillMount () {
       this.updateStateDate(this.props.value);
-
     }
 
     componentWillReceiveProps (nextProps) {
       this.updateStateDate(nextProps.value);
     }
 
-    handleCalendarChange = (value, dayClick) => {
+    handleNewDate = (value, dayClick) => {
       const state = {display: 'months', date: value};
       if (time.dateOutOfRange(value, this.props.minDate, this.props.maxDate)) {
-        state.date = this.props.maxDate || this.props.minDate;
+        if (this.props.maxDate && this.props.minDate) {
+          state.date = time.closestDate(value, this.props.maxDate, this.props.minDate);
+        } else {
+          state.date = this.props.maxDate || this.props.minDate;
+        }
       }
       this.setState(state);
       if (dayClick && this.props.autoOk && this.props.onSelect) {
@@ -63,21 +77,19 @@ const factory = (Dialog, Calendar) => {
       if (this.props.onSelect) this.props.onSelect(this.state.date, event);
     };
 
-    handleSwitchDisplay = (display) => {
-      this.setState({ display });
+    handleSwitchDisplay = (event) => {
+      this.setState({ display: event.target.id });
     };
 
     updateStateDate = (date) => {
       if (Object.prototype.toString.call(date) === '[object Date]') {
-        this.setState({
-          date
-        });
+        this.handleNewDate(date, false);
       }
-    }
+    };
 
     actions = [
-      { label: 'Cancel', className: this.props.theme.button, onClick: this.props.onDismiss },
-      { label: 'Ok', className: this.props.theme.button, name: this.props.name, onClick: this.handleSelect }
+      { label: this.props.cancelLabel, className: this.props.theme.button, onClick: this.props.onDismiss },
+      { label: this.props.okLabel, className: this.props.theme.button, name: this.props.name, onClick: this.handleSelect }
     ];
 
     render () {
@@ -85,6 +97,9 @@ const factory = (Dialog, Calendar) => {
       const display = `${this.state.display}Display`;
       const className = classnames(theme.dialog, this.props.className);
       const headerClassName = classnames(theme.header, theme[display]);
+      const shortDayOfWeek = time.getShortDayOfWeek(this.state.date.getDay(), this.props.locale);
+      const shortMonth = time.getShortMonth(this.state.date, this.props.locale);
+      const date = this.state.date.getDate();
 
       return (
         <Dialog
@@ -96,22 +111,28 @@ const factory = (Dialog, Calendar) => {
           type="custom"
         >
           <header className={headerClassName}>
-            <span className={theme.year} onClick={this.handleSwitchDisplay.bind(this, 'years')}>
+            <span id='years' className={theme.year} onClick={this.handleSwitchDisplay}>
               {this.state.date.getFullYear()}
             </span>
-            <h3 className={theme.date} onClick={this.handleSwitchDisplay.bind(this, 'months')}>
-              {time.getShortDayOfWeek(this.state.date.getDay())}, {time.getShortMonth(this.state.date)} {this.state.date.getDate()}
+            <h3 id='months' className={theme.date} onClick={this.handleSwitchDisplay}>
+              {shortDayOfWeek}, {shortMonth} {date}
             </h3>
           </header>
 
           <div className={theme.calendarWrapper}>
             <Calendar
+              disabledDates={this.props.disabledDates}
               display={this.state.display}
+              enabledDates={this.props.enabledDates}
+              handleSelect={this.handleSelect}
               maxDate={this.props.maxDate}
               minDate={this.props.minDate}
-              onChange={this.handleCalendarChange}
+              onChange={this.handleNewDate}
               selectedDate={this.state.date}
-              theme={this.props.theme} />
+              theme={this.props.theme}
+              locale={this.props.locale}
+              sundayFirstDayOfWeek={this.props.sundayFirstDayOfWeek}
+            />
           </div>
         </Dialog>
       );

@@ -14,8 +14,12 @@ import datePickerDialogFactory from './DatePickerDialog.js';
 const factory = (Input, DatePickerDialog) => {
   class DatePicker extends Component {
     static propTypes = {
+      active: PropTypes.bool,
       autoOk: PropTypes.bool,
+      cancelLabel: PropTypes.string,
       className: PropTypes.string,
+      disabledDates: React.PropTypes.array,
+      enabledDates: React.PropTypes.array,
       error: PropTypes.string,
       icon: PropTypes.oneOfType([
         PropTypes.string,
@@ -24,13 +28,22 @@ const factory = (Input, DatePickerDialog) => {
       inputClassName: PropTypes.string,
       inputFormat: PropTypes.func,
       label: PropTypes.string,
+      locale: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.object
+      ]),
       maxDate: PropTypes.object,
       minDate: PropTypes.object,
       name: PropTypes.string,
+      okLabel: PropTypes.string,
       onChange: PropTypes.func,
+      onClick: PropTypes.func,
+      onDismiss: PropTypes.func,
       onEscKeyDown: PropTypes.func,
       onKeyPress: PropTypes.func,
       onOverlayClick: PropTypes.func,
+      readonly: PropTypes.bool,
+      sundayFirstDayOfWeek: React.PropTypes.bool,
       theme: PropTypes.shape({
         input: PropTypes.string
       }),
@@ -40,17 +53,43 @@ const factory = (Input, DatePickerDialog) => {
       ])
     };
 
-    state = {
-      active: false
+    static defaultProps = {
+      active: false,
+      locale: 'en',
+      sundayFirstDayOfWeek: false
     };
+
+    state = {
+      active: this.props.active
+    };
+
+    componentWillReceiveProps (nextProps) {
+      if (nextProps.active !== this.props.active && this.state.active !== nextProps.active) {
+        this.setState({ active: nextProps.active });
+      }
+    }
 
     handleDismiss = () => {
       this.setState({active: false});
+      if (this.props.onDismiss) {
+        this.props.onDismiss();
+      }
     };
 
-    handleInputMouseDown = (event) => {
+    handleInputFocus = (event) => {
       events.pauseEvent(event);
       this.setState({active: true});
+    };
+
+    handleInputBlur = (event) => {
+      events.pauseEvent(event);
+      this.setState({active: false});
+    };
+
+    handleInputClick = (event) => {
+      events.pauseEvent(event);
+      this.setState({active: true});
+      if (this.props.onClick) this.props.onClick(event);
     };
 
     handleInputKeyPress = (event) => {
@@ -67,38 +106,48 @@ const factory = (Input, DatePickerDialog) => {
     };
 
     render () {
-      const { autoOk, inputClassName, inputFormat, maxDate, minDate,
-        onEscKeyDown, onOverlayClick, value, ...others } = this.props;
+      const { active, onDismiss,// eslint-disable-line
+        autoOk, cancelLabel, enabledDates, disabledDates, inputClassName, inputFormat,
+        locale, maxDate, minDate, okLabel, onEscKeyDown, onOverlayClick, readonly,
+        sundayFirstDayOfWeek, value, ...others } = this.props;
       const finalInputFormat = inputFormat || time.formatDate;
       const date = Object.prototype.toString.call(value) === '[object Date]' ? value : undefined;
-      const formattedDate = date === undefined ? '' : finalInputFormat(value);
+      const formattedDate = date === undefined ? '' : finalInputFormat(value, locale);
 
       return (
         <div data-react-toolbox='date-picker'>
           <Input
             {...others}
             className={classnames(this.props.theme.input, {[inputClassName]: inputClassName })}
+            disabled={readonly}
             error={this.props.error}
-            onMouseDown={this.handleInputMouseDown}
-            onKeyPress={this.handleInputKeyPress}
-            name={this.props.name}
+            icon={this.props.icon}
             label={this.props.label}
+            name={this.props.name}
+            onFocus={this.handleInputFocus}
+            onKeyPress={this.handleInputKeyPress}
+            onClick={this.handleInputClick}
             readOnly
             type='text'
-            icon={this.props.icon}
             value={formattedDate}
           />
           <DatePickerDialog
             active={this.state.active}
             autoOk={autoOk}
+            cancelLabel={cancelLabel}
             className={this.props.className}
+            disabledDates={disabledDates}
+            enabledDates={enabledDates}
+            locale={locale}
             maxDate={maxDate}
             minDate={minDate}
             name={this.props.name}
             onDismiss={this.handleDismiss}
-            onEscKeyDown={onEscKeyDown}
-            onOverlayClick={onOverlayClick}
+            okLabel={okLabel}
+            onEscKeyDown={onEscKeyDown || this.handleDismiss}
+            onOverlayClick={onOverlayClick || this.handleDismiss}
             onSelect={this.handleSelect}
+            sundayFirstDayOfWeek={sundayFirstDayOfWeek}
             theme={this.props.theme}
             value={date}
           />
@@ -115,5 +164,8 @@ const DatePickerDialog = datePickerDialogFactory(InjectDialog, Calendar);
 const DatePicker = factory(InjectInput, DatePickerDialog);
 
 export default themr(DATE_PICKER)(DatePicker);
-export { factory as datePickerFactory };
+export {
+  DatePickerDialog as DatePickerDialog,
+  factory as datePickerFactory
+};
 export { DatePicker };

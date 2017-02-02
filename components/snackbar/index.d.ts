@@ -1,4 +1,5 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
 export interface SnackbarTheme {
   /**
@@ -18,10 +19,6 @@ export interface SnackbarTheme {
    */
   cancel?: string;
   /**
-   * Used for the icon element.
-   */
-  icon?: string;
-  /**
    * Used for the label element.
    */
   label?: string;
@@ -35,7 +32,7 @@ export interface SnackbarTheme {
   warning?: string;
 }
 
-interface SnackbarProps extends __ReactToolbox.Props {
+export interface SnackbarProps extends ReactToolbox.Props {
   /**
    * Label for the action component inside the Snackbar.
    */
@@ -46,13 +43,17 @@ interface SnackbarProps extends __ReactToolbox.Props {
    */
   active?: boolean;
   /**
-   * String key for an icon or Element which will be displayed in left side of the snackbar.
+   * Children to pass through the component.
    */
-  icon?: __React.ReactNode | string;
+  children?: React.ReactNode;
   /**
-   * Text to display in the content. Required.
+   * Text to display in the content.
    */
-  label: string;
+  label?: string;
+  /**
+   * Callback function that will be called when the button action is clicked.
+   */
+  onClick?: Function;
   /**
    * Callback function when finish the set timeout.
    */
@@ -71,6 +72,6 @@ interface SnackbarProps extends __ReactToolbox.Props {
   type?: "accept" | "cancel" | "warning";
 }
 
-export class Snackbar extends __React.Component<SnackbarProps, {}> { }
+export class Snackbar extends React.Component<SnackbarProps, {}> { }
 
 export default Snackbar;

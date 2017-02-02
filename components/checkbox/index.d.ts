@@ -1,4 +1,5 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
 export interface CheckboxTheme {
   /**
@@ -31,12 +32,16 @@ export interface CheckboxTheme {
   text?: string;
 }
 
-interface CheckboxProps extends __ReactToolbox.Props {
+export interface CheckboxProps extends ReactToolbox.Props {
   /**
    * Value for the checkbox, can be true or false.
    * @default false
    */
   checked?: boolean;
+  /**
+   * Children to pass through the component.
+   */
+  children?: React.ReactNode;
   /**
    * If true, the checkbox shown as disabled and cannot be modified.
    * @default false
@@ -45,7 +50,7 @@ interface CheckboxProps extends __ReactToolbox.Props {
   /**
    * Text label to attach next to the checkbox element.
    */
-  label?: __React.ReactNode | string;
+  label?: React.ReactNode | string;
   /**
    * The name of the field to set in the input checkbox.
    */
@@ -53,17 +58,21 @@ interface CheckboxProps extends __ReactToolbox.Props {
   /**
    * Callback called when the checkbox is blurred.
    */
-  onBlur?: __React.FocusEventHandler;
+  onBlur?: Function;
   /**
    * Callback called when the checkbox value is changed.
    */
-  onChange?: __React.MouseEventHandler;
+  onChange?: Function;
   /**
    * Classnames object defining the component style.
    */
   theme?: CheckboxTheme;
+  /**
+   * Additional properties passed to inner input element.
+   */
+  [key: string]: any;
 }
 
-export class Checkbox extends __React.Component<CheckboxProps, {}> { }
+export class Checkbox extends React.Component<CheckboxProps, {}> { }
 
 export default Checkbox;

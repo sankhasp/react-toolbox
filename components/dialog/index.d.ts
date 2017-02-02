@@ -1,4 +1,5 @@
-import __ReactToolbox from "../index.d.ts";
+import * as React from "react";
+import ReactToolbox from "../index";
 
 export interface DialogTheme {
   /**
@@ -27,7 +28,7 @@ export interface DialogTheme {
   title?: string;
 }
 
-interface DialogActionProps {
+export interface DialogActionProps {
   /**
    * The text string to use for the name of the button.
    */
@@ -35,10 +36,10 @@ interface DialogActionProps {
   /**
    * Callback called when the component is clicked.
    */
-  onClick?: __React.MouseEventHandler;
+  onClick?: Function;
 }
 
-interface DialogProps extends __ReactToolbox.Props {
+export interface DialogProps extends ReactToolbox.Props {
   /**
    * A array of objects representing the buttons for the dialog navigation area. The properties will be transferred to the buttons.
    */
@@ -51,27 +52,27 @@ interface DialogProps extends __ReactToolbox.Props {
   /**
    * Children to pass through the component.
    */
-  children?: __React.ReactNode;
+  children?: React.ReactNode;
   /**
    * Callback called when the ESC key is pressed with the overlay active.
    */
-  onEscKeyDown?: __React.KeyboardEventHandler;
+  onEscKeyDown?: Function;
   /**
    * Callback to be invoked when the dialog overlay is clicked.
    */
-  onOverlayClick?: __React.MouseEventHandler;
+  onOverlayClick?: Function;
   /**
    * Callback called when the mouse button is pressed on the overlay.
    */
-  onOverlayMouseDown?: __React.MouseEventHandler;
+  onOverlayMouseDown?: Function;
   /**
    * Callback called when the mouse is moving over the overlay.
    */
-  onOverlayMouseMove?: __React.MouseEventHandler;
+  onOverlayMouseMove?: Function;
   /**
    * Callback called when the mouse button is released over the overlay.
    */
-  onOverlayMouseUp?: __React.MouseEventHandler;
+  onOverlayMouseUp?: Function;
   /**
    * Classnames object defining the component style.
    */
@@ -82,11 +83,11 @@ interface DialogProps extends __ReactToolbox.Props {
   title?: string;
   /**
    * Used to determine the size of the dialog. It can be small, normal or large.
-   * @default normal
+   * @default "normal"
    */
-  type?: string;
+  type?: "small" | "normal" | "large" | string;
 }
 
-export class Dialog extends __React.Component<DialogProps, {}> { }
+export class Dialog extends React.Component<DialogProps, {}> { }
 
 export default Dialog;
