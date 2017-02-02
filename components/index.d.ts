@@ -1,14 +1,10 @@
 import * as React from "react";
 export declare namespace ReactToolbox {
-  interface Props {
+  interface Props extends React.Attributes {
     /**
      * Set a class for the root component.
      */
     className?: string;
-    /**
-     * Key used to uniquely identify the element within an Array.
-     */
-    key?: string | number;
     /**
      * Callback called when the component is clicked.
      */
@@ -44,7 +40,7 @@ export declare namespace ReactToolbox {
     onMouseOver?: Function;
     onTouchCancel?: Function;
     onTouchEnd?: Function;
-    uchMove?: Function;
+    onTouchMove?: Function;
     onTouchStart?: Function;
     /**
      * Set inline style for the root component.
